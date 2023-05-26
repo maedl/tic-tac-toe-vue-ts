@@ -1,11 +1,12 @@
 <script setup lang="ts">
+import SelectPlayers from './components/SelectPlayers.vue';
 import StackIcons from './components/StackIcons.vue';
 
 </script>
 
 <template>
 
-<StackIcons />
+<SelectPlayers></SelectPlayers>
  
 </template>
 
