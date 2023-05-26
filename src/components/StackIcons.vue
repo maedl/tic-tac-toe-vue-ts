@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div :class="containerClasses">
     <a href="https://vitejs.dev" target="_blank">
       <img src="../assets/vite.svg" class="logo" alt="Vite logo" />
     </a>
@@ -10,6 +10,8 @@
 </template>
 
 <script setup lang="ts">
+
+const containerClasses = 'flex justify-center';
 
 </script>
 
