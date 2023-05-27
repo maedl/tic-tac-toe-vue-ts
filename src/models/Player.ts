@@ -1,4 +1,4 @@
-export enum playingPiece {
+export enum PlayingPiece {
   X = 'X',
   O = 'O'
 }
@@ -6,9 +6,7 @@ export enum playingPiece {
 export class Player {
   constructor(
     public name: String,
-    public playingPiece: playingPiece,
-    public score?: Number
-  ) {
-    this.score = 0;
-  }
+    public playingPiece: PlayingPiece,
+    public score: Number = 0
+  ) {}
 }
