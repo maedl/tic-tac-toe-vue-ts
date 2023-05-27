@@ -10,7 +10,7 @@
 
 <script setup lang="ts">
 import { ref, watch } from 'vue';
-import { playingPiece } from '../models/Player';
+import { PlayingPiece } from '../models/Player';
 
 interface IPlayerInputProps {
   playerCount: number
@@ -24,12 +24,12 @@ const props = defineProps<IPlayerInputProps>();
 
 const playerInput = ref('');
 const btnText = ref('Spara');
-const playerPiece = ref(playingPiece.X)
+const playerPiece = ref(PlayingPiece.X)
 
 watch(() => props.playerCount, (newPlayerCount) => {
   if(newPlayerCount == 1) {
     btnText.value = 'Starta spel';
-    playerPiece.value = playingPiece.O;
+    playerPiece.value = PlayingPiece.O;
   }
 });
 

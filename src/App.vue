@@ -13,7 +13,7 @@ const gameFull = () => {
 
 <template>
 
-<SelectPlayers @max-players="gameFull" v-if="!maxPlayers"></SelectPlayers>
-<GameBoard v-else></GameBoard>
+  <SelectPlayers @max-players="gameFull" v-if="!maxPlayers" />
+  <GameBoard v-else />
  
 </template>

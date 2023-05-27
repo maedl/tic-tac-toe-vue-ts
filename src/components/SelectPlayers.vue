@@ -1,12 +1,11 @@
 <template>
-<PlayerInput @add-player="addPlayer" :playerCount="playerCount"></PlayerInput>
-
+  <PlayerInput @add-player="addPlayer" :playerCount="playerCount"></PlayerInput>
 </template>
 
 <script setup lang="ts">
 import { ref, computed, onMounted } from 'vue';
 import PlayerInput from './PlayerInput.vue';
-import { Player, playingPiece } from '../models/Player';
+import { Player, PlayingPiece } from '../models/Player';
 import { getPlayersFromStorage, savePlayersToStorage } from '../functions.ts/localStorage';
 
 const emits = defineEmits<{ 
@@ -21,7 +20,7 @@ onMounted(() => {
 })
 
 const addPlayer = (playerName: string) => {
-  const piece = players.value.length === 0 ? playingPiece.X : playingPiece.O;
+  const piece = players.value.length === 0 ? PlayingPiece.X : PlayingPiece.O;
 
   players.value = [
     ...players.value,
@@ -45,7 +44,6 @@ const checkForActiveGame = () => {
     players.value = storageCheck;
     return emits('max-players');
   }
-  
   
 }
 
