@@ -1,26 +1,32 @@
 <template>
-<PlayerInput @add-player="addPlayer"></PlayerInput>
+<PlayerInput @add-player="addPlayer" :playerCount="playerCount"></PlayerInput>
 
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue';
+import { ref, computed } from 'vue';
 import PlayerInput from './PlayerInput.vue';
-import { Player } from '../models/Player';
+import { Player, playingPiece } from '../models/Player';
 
-const players = ref<Player[]>([])
+const emits = defineEmits<{ 
+  (e: 'max-players') :void,
+}> ();
+
+const players = ref<Player[]>([]);
+const playerCount = computed(() => players.value.length);
 
 const addPlayer = (playerName: string) => {
+  const piece = players.value.length === 0 ? playingPiece.X : playingPiece.O;
+
   players.value = [
     ...players.value,
-    new Player(playerName, 'X')
+    new Player(playerName, piece)
   ];
+  
+  if (players.value.length == 2) {
+    return emits('max-players')
+  }
 
-  console.log(players);
 }
 
 </script>
-
-<style lang="scss" scoped>
-
-</style>

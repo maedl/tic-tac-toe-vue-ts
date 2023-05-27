@@ -1,34 +1,46 @@
 <template>
-  <form @submit.prevent="$emit('add-player', playerInput)" class="flex justify-center items-center">
-    <label for="player-name">Spelare:</label>
-    <input type="text" name="player-name" v-model="playerInput" class="text-black rounded-md mx-4 h-10 px-2">
-    <button class="btn" :btnText="btnText">{{ btnText }}</button>
+  <form @submit.prevent="handleSubmit" class="flex flex-col justify-center items-center w-full">
+    <label for="player-name" class="text-lg">Spelare<span :playerPiece="playerPiece">{{ ' ' + playerPiece + ':' }}</span></label>
+    <div class="flex flex-col">
+      <input type="text" name="player-name" v-model="playerInput" class="text-black rounded-md mx-4 h-10 px-2 my-4">
+      <button class="btn" :btnText="btnText">{{ btnText }}</button>
+    </div>
   </form>
 </template>
 
 <script setup lang="ts">
-import { onMounted, ref } from 'vue';
-import { Player } from '../models/Player';
+import { ref, watch } from 'vue';
+import { playingPiece } from '../models/Player';
 
-defineEmits<{ 
+interface IPlayerInputProps {
+  playerCount: number
+}
+
+const emit = defineEmits<{ 
   (e: 'add-player', playerName: string) :void,
 }> ();
 
+const props = defineProps<IPlayerInputProps>();
+
 const playerInput = ref('');
-const btnText = ref('');
+const btnText = ref('Spara');
+const playerPiece = ref(playingPiece.X)
 
-onMounted(() => {
-  btnText.value = 'Spara';
-})
+watch(() => props.playerCount, (newPlayerCount) => {
+  if(newPlayerCount == 1) {
+    btnText.value = 'Starta spel';
+    playerPiece.value = playingPiece.O;
+  }
+});
 
-const handleClick = () => {
-  const player = new Player('', '')
+const handleSubmit = () => {
+  emit('add-player', playerInput.value);
+  playerInput.value = '';
 
-  btnText.value = 'Spela';
+  if(props.playerCount == 1) {
+    btnText.value = 'Starta spel';
+  }
+
 }
 
 </script>
-
-<style lang="scss" scoped>
-
-</style>
