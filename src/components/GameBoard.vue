@@ -6,7 +6,7 @@
 </template>
 
 <script setup lang="ts">
-import { clearPlayersFromStorage, getPlayersFromStorage } from '../functions.ts/localStorage';
+import { clearPlayersFromStorage, getPlayersFromStorage } from '../functions/localStorage'
 import { Player } from '../models/Player';
 
 const activePlayers: Player[] | null = getPlayersFromStorage();

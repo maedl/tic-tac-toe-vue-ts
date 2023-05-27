@@ -6,7 +6,7 @@
 import { ref, computed, onMounted } from 'vue';
 import PlayerInput from './PlayerInput.vue';
 import { Player, PlayingPiece } from '../models/Player';
-import { getPlayersFromStorage, savePlayersToStorage } from '../functions.ts/localStorage';
+import { getPlayersFromStorage, savePlayersToStorage } from '../functions/localStorage';
 
 const emits = defineEmits<{ 
   (e: 'max-players') :void,
