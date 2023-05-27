@@ -1,5 +1,7 @@
 <template>
-  <PlayerInput @add-player="addPlayer" :playerCount="playerCount"></PlayerInput>
+  <div class="h-screen flex justify-center items-center">
+    <PlayerInput @add-player="addPlayer" :playerCount="playerCount"></PlayerInput>
+  </div>
 </template>
 
 <script setup lang="ts">
