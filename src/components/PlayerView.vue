@@ -10,7 +10,6 @@
 <script setup lang="ts">
 import { Player } from '../models/Player';
 
-
 interface IPlayerViewProps {
   player: Player
 }

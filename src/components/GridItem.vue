@@ -1,6 +1,8 @@
 <template>
   <div class="h-24 w-full border-2 bg-white text-black flex justify-center items-center
-  md:h-36 hover:cursor-pointer">
+  md:h-36 hover:cursor-pointer"
+  @click="handleClick"
+  >
     <div class="text-6xl md:text-7xl">
       {{ placedPiece }}
     </div>
@@ -8,7 +10,23 @@
 </template>
 
 <script setup lang="ts">
-const placedPiece = '';
+import { ref } from 'vue';
+import { BoardItem } from '../models/BoardItem';
+import { GamePiece } from '../models/Player';
+
+interface IGridItemProps {
+  boardItem: BoardItem;
+}
+const emit = defineEmits<{ 
+  (e: 'place-piece', id: string) :void,
+}> ();
+
+const props = defineProps<IGridItemProps>();
+const placedPiece = ref<GamePiece>(props.boardItem.placedPiece);
+
+const handleClick = (e: MouseEvent) => {
+  emit('place-piece', props.boardItem.id)
+}
 
 </script>
 

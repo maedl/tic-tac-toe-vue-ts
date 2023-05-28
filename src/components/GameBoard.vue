@@ -5,7 +5,7 @@
     </div>
       
     <div class="grid grid-rows-3 grid-cols-3 w-full max-w-xl px-4 gap-1 md:gap-2">
-      <GridItem v-for="item in gameBoard"></GridItem>
+      <GridItem @place-piece="handlePiecePlacement" v-for="item in gameBoard" :key="item.id" :board-item="item"></GridItem>
     </div>
 
     <button @click="clearStorage" class="btn mt-2">Clear storage</button>
@@ -26,16 +26,20 @@ const gameBoard = ref<BoardItem[] >([]);
 
 onMounted(() => {
   createGameBoard();
+  console.log(gameBoard)
 })
 
 const createGameBoard = () => {
-  let board: BoardItem[] = [];
-
   for (let i = 0; i < GRID_LENGTH; i++) {
-    const item: BoardItem = new BoardItem(i);
-    board.push(item)
+    gameBoard.value = [
+      ...gameBoard.value,
+      new BoardItem(i, i.toString())
+  ];
   }
-  gameBoard.value = board;
+}
+
+const handlePiecePlacement = (id: string) => {
+  console.log(id);
 }
 
 const clearStorage = () => {
