@@ -1,24 +1,20 @@
-import { Player } from "../models/Player"
+import { Game } from "../models/Game"
 
-export const savePlayersToStorage = (players: Player[]) => {
-  localStorage.setItem('players', JSON.stringify(players));
+export const saveGameToStorage = (game: Game) => {
+  localStorage.setItem('game', JSON.stringify(game));
 }
 
-export const getPlayersFromStorage = ():Player[] | null => {
-  let playersJson = localStorage.getItem('players');
+export const getGameFromStorage = (): Game | null => {
+  let gameJson = localStorage.getItem('game');
 
-  if (playersJson) {
-    const parsedPlayers = JSON.parse(playersJson);
-    const players = parsedPlayers.map((player: any) => {
-      return new Player(player.name, player.GamePiece, player.score);
-    });
-
-    return players;
+  if (gameJson) {
+    const parsedGame = JSON.parse(gameJson);
+    return new Game(parsedGame.players, parsedGame.board);
   }
 
-  return null;
+  return null;  
 }
 
-export const clearPlayersFromStorage = () => {
-  localStorage.removeItem('players');
+export const clearGameFromStorage = () => {
+  localStorage.removeItem('game');
 }
