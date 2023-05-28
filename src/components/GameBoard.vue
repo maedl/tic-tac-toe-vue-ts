@@ -4,7 +4,7 @@
       <PlayerView v-for="player in activePlayers" :player="player" :key="player.GamePiece"></PlayerView>
     </div>
       
-    <div class="grid grid-rows-3 grid-cols-3 w-full max-w-xl px-4 gap-1 md:gap-2">
+    <div class="grid grid-rows-3 grid-cols-3 w-full max-w-[328px] md:max-w-xl px-4 gap-1 md:gap-2">
       <GridItem @place-piece="handlePiecePlacement" v-for="item in gameBoard" :key="item.id" :board-item="item"></GridItem>
     </div>
 
@@ -26,7 +26,6 @@ const gameBoard = ref<BoardItem[] >([]);
 
 onMounted(() => {
   createGameBoard();
-  console.log(gameBoard)
 })
 
 const createGameBoard = () => {
@@ -56,7 +55,3 @@ const reset = () => {
 }
 
 </script>
-
-<style lang="scss" scoped>
-
-</style>

@@ -4,32 +4,26 @@
   @click="handleClick"
   >
     <div class="text-6xl md:text-7xl">
-      {{ placedPiece }}
+      {{ props.boardItem.placedPiece }}
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue';
 import { BoardItem } from '../models/BoardItem';
-import { GamePiece } from '../models/Player';
 
 interface IGridItemProps {
   boardItem: BoardItem;
 }
+
 const emit = defineEmits<{ 
   (e: 'place-piece', id: string) :void,
 }> ();
 
 const props = defineProps<IGridItemProps>();
-const placedPiece = ref<GamePiece>(props.boardItem.placedPiece);
 
-const handleClick = (e: MouseEvent) => {
+const handleClick = () => {
   emit('place-piece', props.boardItem.id)
 }
 
 </script>
-
-<style scoped>
-
-</style>
