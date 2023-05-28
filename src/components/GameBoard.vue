@@ -8,7 +8,7 @@
       <GridItem @place-piece="handlePiecePlacement" v-for="item in gameBoard" :key="item.id" :board-item="item"></GridItem>
     </div>
 
-    <button @click="clearStorage" class="btn mt-2">Clear storage</button>
+    <button @click="reset" class="btn mt-2">Reset</button>
   </div>
 </template>
 
@@ -16,7 +16,7 @@
 import { onMounted, ref } from 'vue';
 import { clearPlayersFromStorage, getPlayersFromStorage } from '../functions/localStorage'
 import { BoardItem } from '../models/BoardItem';
-import { Player } from '../models/Player';
+import { GamePiece, Player } from '../models/Player';
 import PlayerView from './PlayerView.vue';
 import GridItem from './GridItem.vue';
 
@@ -40,10 +40,19 @@ const createGameBoard = () => {
 
 const handlePiecePlacement = (id: string) => {
   console.log(id);
+  gameBoard.value = gameBoard.value.map((item) => {
+    if (item.id == id) {
+      item.placedPiece = GamePiece.X;
+      return item
+    }
+    return item
+  })
+  console.log(gameBoard.value)
 }
 
-const clearStorage = () => {
+const reset = () => {
   clearPlayersFromStorage();
+  location.reload();
 }
 
 </script>
