@@ -2,7 +2,7 @@
 
     <div class="flex justify-around my-2">
       <div>{{ props.player.name }}</div>
-      <div> {{ props.player.playingPiece }}</div>
+      <div> {{ props.player.GamePiece }}</div>
     </div>
 
 </template>

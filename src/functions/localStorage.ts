@@ -10,7 +10,7 @@ export const getPlayersFromStorage = ():Player[] | null => {
   if (playersJson) {
     const parsedPlayers = JSON.parse(playersJson);
     const players = parsedPlayers.map((player: any) => {
-      return new Player(player.name, player.playingPiece, player.score);
+      return new Player(player.name, player.GamePiece, player.score);
     });
 
     return players;

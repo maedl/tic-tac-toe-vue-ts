@@ -1,12 +1,13 @@
-export enum PlayingPiece {
+export enum GamePiece {
   X = 'X',
-  O = 'O'
+  O = 'O',
+  EMPTY = ''
 }
 
 export class Player {
   constructor(
     public name: String,
-    public playingPiece: PlayingPiece,
+    public GamePiece: GamePiece,
     public score: Number = 0
   ) {}
 }

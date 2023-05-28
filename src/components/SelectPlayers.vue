@@ -7,7 +7,7 @@
 <script setup lang="ts">
 import { ref, computed, onMounted } from 'vue';
 import PlayerInput from './PlayerInput.vue';
-import { Player, PlayingPiece } from '../models/Player';
+import { Player, GamePiece } from '../models/Player';
 import { getPlayersFromStorage, savePlayersToStorage } from '../functions/localStorage';
 
 const emits = defineEmits<{ 
@@ -22,7 +22,7 @@ onMounted(() => {
 })
 
 const addPlayer = (playerName: string) => {
-  const piece = players.value.length === 0 ? PlayingPiece.X : PlayingPiece.O;
+  const piece = players.value.length === 0 ? GamePiece.X : GamePiece.O;
 
   players.value = [
     ...players.value,
