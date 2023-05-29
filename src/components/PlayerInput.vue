@@ -1,13 +1,3 @@
-<template>
-  <form @submit.prevent="handleSubmit" class="flex flex-col justify-center items-center w-full">
-    <label for="player-name" class="text-lg">Spelare<span :playerPiece="playerPiece">{{ ' ' + playerPiece + ':' }}</span></label>
-    <div class="flex flex-col">
-      <input type="text" name="player-name" v-model="playerInput" class="text-black rounded-md mx-4 h-10 px-2 my-4">
-      <button class="btn" :btnText="btnText">{{ btnText }}</button>
-    </div>
-  </form>
-</template>
-
 <script setup lang="ts">
 import { ref, watch } from 'vue';
 import { GamePiece } from '../models/Player';
@@ -44,3 +34,13 @@ const handleSubmit = () => {
 }
 
 </script>
+
+<template>
+  <form @submit.prevent="handleSubmit" class="flex flex-col justify-center items-center w-full">
+    <label for="player-name" class="text-lg">Spelare<span :playerPiece="playerPiece">{{ ' ' + playerPiece + ':' }}</span></label>
+    <div class="flex flex-col">
+      <input type="text" name="player-name" v-model="playerInput" class="text-black rounded-md mx-4 h-10 px-2 my-4">
+      <button class="btn" :btnText="btnText">{{ btnText }}</button>
+    </div>
+  </form>
+</template>

@@ -1,14 +1,3 @@
-<template>
-  <div class="h-24 w-full border-2 bg-white text-black flex justify-center items-center
-  md:h-36 hover:cursor-pointer"
-  @click="handleClick"
-  >
-    <div class="text-6xl md:text-7xl">
-      {{ props.boardItem.placedPiece }}
-    </div>
-  </div>
-</template>
-
 <script setup lang="ts">
 import { BoardItem } from '../models/BoardItem';
 
@@ -27,3 +16,14 @@ const handleClick = () => {
 }
 
 </script>
+
+<template>
+  <div class="h-24 w-full border-2 bg-white text-black flex justify-center items-center
+  md:h-36 hover:cursor-pointer"
+  @click="handleClick"
+  >
+    <div class="text-6xl md:text-7xl">
+      {{ props.boardItem.placedPiece }}
+    </div>
+  </div>
+</template>

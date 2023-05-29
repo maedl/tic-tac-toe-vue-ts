@@ -1,12 +1,3 @@
-<template>
-
-    <div class="flex justify-around my-2">
-      <div>{{ props.player.name }}</div>
-      <div> {{ props.player.GamePiece }}</div>
-    </div>
-
-</template>
-
 <script setup lang="ts">
 import { Player } from '../models/Player';
 
@@ -18,6 +9,11 @@ const props = defineProps<IPlayerViewProps>();
 
 </script>
 
-<style lang="scss" scoped>
+<template>
 
-</style>
+  <div class="flex justify-around my-2">
+    <div>{{ props.player.name }}</div>
+    <div> {{ props.player.GamePiece }}</div>
+  </div>
+
+</template>

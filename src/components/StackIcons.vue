@@ -1,3 +1,9 @@
+<script setup lang="ts">
+
+const containerClasses = 'flex justify-center';
+
+</script>
+
 <template>
   <div :class="containerClasses">
     <a href="https://vitejs.dev" target="_blank">
@@ -8,11 +14,3 @@
     </a>
   </div>
 </template>
-
-<script setup lang="ts">
-
-const containerClasses = 'flex justify-center';
-
-</script>
-
-<style lang="scss" scoped></style>

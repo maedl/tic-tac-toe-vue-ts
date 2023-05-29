@@ -1,9 +1,3 @@
-<template>
-  <div class="h-screen flex justify-center items-center">
-    <PlayerInput @add-player="addPlayer" :playerCount="playerCount"></PlayerInput>
-  </div>
-</template>
-
 <script setup lang="ts">
 import { ref, computed, onMounted } from 'vue';
 import PlayerInput from './PlayerInput.vue';
@@ -34,3 +28,9 @@ const addPlayer = (playerName: string) => {
 }
 
 </script>
+
+<template>
+  <div class="h-screen flex justify-center items-center">
+    <PlayerInput @add-player="addPlayer" :playerCount="playerCount"></PlayerInput>
+  </div>
+</template>
