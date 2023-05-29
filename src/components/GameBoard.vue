@@ -1,8 +1,9 @@
 <template>
   <div class="h-screen flex flex-col justify-center items-center">
-    <div  class="grid grid-cols-1 grid-rows-2 w-1/2 min-w-fit absolute top-6 right-0">
+
+    <!-- <div  class="grid grid-cols-1 grid-rows-2 w-1/2 min-w-fit absolute top-6 right-0">
       <PlayerView v-for="player in activePlayers" :player="player" :key="player.GamePiece"></PlayerView>
-    </div>
+    </div> -->
       
     <div class="grid grid-rows-3 grid-cols-3 w-full max-w-[328px] md:max-w-xl px-4 gap-1 md:gap-2">
       <GridItem @place-piece="handlePiecePlacement" v-for="item in gameBoard" :key="item.id" :board-item="item"></GridItem>
@@ -14,18 +15,32 @@
 
 <script setup lang="ts">
 import { onMounted, ref } from 'vue';
-import { clearPlayersFromStorage, getPlayersFromStorage } from '../functions/localStorage'
 import { BoardItem } from '../models/BoardItem';
 import { GamePiece, Player } from '../models/Player';
 import PlayerView from './PlayerView.vue';
 import GridItem from './GridItem.vue';
+import { clearGameFromStorage } from '../functions/localStorage';
 
 const GRID_LENGTH: number = 9;
-const activePlayers: Player[] | null = getPlayersFromStorage();
 const gameBoard = ref<BoardItem[] >([]);
 
+interface IGameBoardProps {
+  resumedGame: boolean,
+  initialBoard: BoardItem[] | null
+}
+
+const emit = defineEmits<{ 
+  (e: 'gameboard', board: BoardItem[]) :void,
+}> ();
+
+const props = defineProps<IGameBoardProps>();
+
 onMounted(() => {
-  createGameBoard();
+  if (props.resumedGame && props.initialBoard) {
+    gameBoard.value = props.initialBoard;
+  } else {
+    createGameBoard();
+  }
 })
 
 const createGameBoard = () => {
@@ -46,11 +61,11 @@ const handlePiecePlacement = (id: string) => {
     }
     return item
   })
-  console.log(gameBoard.value)
+  emit('gameboard', gameBoard.value)
 }
 
 const reset = () => {
-  clearPlayersFromStorage();
+  clearGameFromStorage();
   location.reload();
 }
 

@@ -1,3 +1,4 @@
+import { BoardItem } from "../models/BoardItem";
 import { Game } from "../models/Game"
 
 export const saveGameToStorage = (game: Game) => {
@@ -9,7 +10,8 @@ export const getGameFromStorage = (): Game | null => {
 
   if (gameJson) {
     const parsedGame = JSON.parse(gameJson);
-    return new Game(parsedGame.players, parsedGame.board);
+    const board = parsedGame.board.map((item: any) => new BoardItem(item.index, item.id, item.placedPiece));
+    return new Game(parsedGame.players, board);
   }
 
   return null;  
