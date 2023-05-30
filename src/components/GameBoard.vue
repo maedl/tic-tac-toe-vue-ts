@@ -1,13 +1,13 @@
 <script setup lang="ts">
-import { onMounted, ref } from 'vue';
 import { BoardItem } from '../models/BoardItem';
 import { GamePiece, Player } from '../models/Player';
-import PlayerView from './PlayerView.vue';
 import GridItem from './GridItem.vue';
 import { clearGameFromStorage } from '../functions/localStorage';
-
+import { Game } from '../models/Game';
+import { computed } from 'vue';
 
 interface IGameBoardProps {
+  currentGame: Game,
   gameBoard: BoardItem[]
 }
 
@@ -17,19 +17,24 @@ const emit = defineEmits<{
 
 const props = defineProps<IGameBoardProps>();
 
+const currentPlayerName = computed(() => {
+  if (props.currentGame && props.currentGame.players[props.currentGame.currentPlayerIndex]) {
+    return props.currentGame.players[props.currentGame.currentPlayerIndex].name;
+  } 
+  return '';
+});
 
 const handlePiecePlacement = (id: string) => {
-  console.log(id);
-   let newGameBoardValue = props.gameBoard.map((item) => {
+  let newGameBoardValue = props.gameBoard.map((item) => {
     if (item.id == id) {
-      item.placedPiece = GamePiece.X;
-      return item
+      item.placedPiece = props.currentGame.players[props.currentGame.currentPlayerIndex].GamePiece;
+      return item;
     }
-    return item
-  })
-  emit('gameboard', newGameBoardValue)
+    return item;
+  });
+  props.currentGame.nextTurn();
+  emit('gameboard', newGameBoardValue);
 }
-
 const reset = () => {
   clearGameFromStorage();
   location.reload();
@@ -43,8 +48,12 @@ const reset = () => {
     <!-- <div  class="grid grid-cols-1 grid-rows-2 w-1/2 min-w-fit absolute top-6 right-0">
       <PlayerView v-for="player in activePlayers" :player="player" :key="player.GamePiece"></PlayerView>
     </div> -->
-      
-    <div class="grid grid-rows-3 grid-cols-3 w-full max-w-[328px] md:max-w-xl px-4 gap-1 md:gap-2">
+    <h1
+      class="text-lg mb-4 self-start mx-8"
+      >
+      {{ 'It is your turn, ' + currentPlayerName + '!' }}
+      </h1>
+    <div class="grid grid-rows-3 grid-cols-3 w-full max-w-[328px] md:max-w-xl px-4 gap-1 md:gap-2 mb-4">
       <GridItem @place-piece="handlePiecePlacement" v-for="item in gameBoard" :key="item.id" :board-item="item"></GridItem>
     </div>
 
