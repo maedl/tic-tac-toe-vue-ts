@@ -6,11 +6,10 @@ import { saveGameToStorage } from '../functions/localStorage';
 import { BoardItem } from '../models/BoardItem';
 import { Player } from '../models/Player';
 import { Game } from '../models/Game';
-
-const GRID_LENGTH: number = 9;
+import { GRID_LENGTH } from "../models/solutions";
 
 const gameIsActive = ref<boolean>(false);
-const activeGame = ref<Game>(new Game([],[], 0));
+const activeGame = ref<Game>(new Game([],[], 0, GRID_LENGTH));
 const gameBoard = ref<BoardItem[] >([]);
 const activePlayers = ref<Player[]>([]);
 
@@ -44,14 +43,14 @@ const handlePlayersState = (newPlayers: Player[]) => {
   activePlayers.value = newPlayers;
   if (activePlayers.value.length == 2) {
     createGameBoard();
-    startGame(activePlayers.value, gameBoard.value);
+    startNewGame(activePlayers.value, gameBoard.value, GRID_LENGTH);
     gameIsActive.value = true;
   }
 }
 
-const startGame = (players: Player[], board: BoardItem[]) => {
+const startNewGame = (players: Player[], board: BoardItem[], turnCount:number) => {
   const randomIndex = Math.floor(Math.random() * 2);
-  activeGame.value = new Game(players, board, randomIndex);
+  activeGame.value = new Game(players, board, randomIndex, turnCount);
 }
 
 // const resumeGame = (game: Game) => {
@@ -67,8 +66,18 @@ const saveGameBoard = (board: BoardItem[]) => {
   
 }
 
-const handleGameState = () => {
+const handleGameState = (updatedBoard: BoardItem[]) => {
+  const activeIndex = activeGame.value.currentPlayerIndex;
+  const activeTurnCount = activeGame.value.turnCount
+  activeGame.value = new Game(activePlayers.value, updatedBoard, activeIndex, activeTurnCount);
 
+  if (activeGame.value.turnCount == 0) {
+    gameOver()
+  }
+}
+
+const gameOver = () => {
+  console.log('draw!');
 }
 
 </script>
@@ -82,11 +91,10 @@ const handleGameState = () => {
       v-if="!gameIsActive" 
     />
     <GameBoard 
+      v-else
       :game-board="gameBoard" 
       :current-game="activeGame"
       @gameboard="handleGameState"
     ></GameBoard>
   </div>
 </template>
-
-

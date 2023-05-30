@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import { BoardItem } from '../models/BoardItem';
-import { GamePiece, Player } from '../models/Player';
 import GridItem from './GridItem.vue';
 import { clearGameFromStorage } from '../functions/localStorage';
 import { Game } from '../models/Game';
@@ -32,11 +31,15 @@ const handlePiecePlacement = (id: string) => {
     }
     return item;
   });
+
   props.currentGame.nextTurn();
   emit('gameboard', newGameBoardValue);
 }
+
+
+
 const reset = () => {
-  clearGameFromStorage();
+  //clearGameFromStorage();
   location.reload();
 }
 
@@ -48,11 +51,11 @@ const reset = () => {
     <!-- <div  class="grid grid-cols-1 grid-rows-2 w-1/2 min-w-fit absolute top-6 right-0">
       <PlayerView v-for="player in activePlayers" :player="player" :key="player.GamePiece"></PlayerView>
     </div> -->
-    <h1
-      class="text-lg mb-4 self-start mx-8"
-      >
-      {{ 'It is your turn, ' + currentPlayerName + '!' }}
-      </h1>
+      <h1
+        class="text-lg mb-4 mx-8 px-6"
+        >
+        {{ 'It is your turn, ' + currentPlayerName + '!' }}
+        </h1>
     <div class="grid grid-rows-3 grid-cols-3 w-full max-w-[328px] md:max-w-xl px-4 gap-1 md:gap-2 mb-4">
       <GridItem @place-piece="handlePiecePlacement" v-for="item in gameBoard" :key="item.id" :board-item="item"></GridItem>
     </div>
