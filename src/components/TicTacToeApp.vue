@@ -6,12 +6,11 @@ import { saveGameToStorage } from '../functions/localStorage';
 import { BoardItem } from '../models/BoardItem';
 import { Player } from '../models/Player';
 import { Game } from '../models/Game';
-import { computed } from '@vue/reactivity';
 
 const GRID_LENGTH: number = 9;
 
 const gameIsActive = ref<boolean>(false);
-const activeGame = ref<Game>(new Game([],[]));
+const activeGame = ref<Game>(new Game([],[], 0));
 const gameBoard = ref<BoardItem[] >([]);
 const activePlayers = ref<Player[]>([]);
 
@@ -43,11 +42,16 @@ const createGameBoard = () => {
 
 const handlePlayersState = (newPlayers: Player[]) => {
   activePlayers.value = newPlayers;
-  console.log(activePlayers.value)
+  if (activePlayers.value.length == 2) {
+    createGameBoard();
+    startGame(activePlayers.value, gameBoard.value);
+    gameIsActive.value = true;
+  }
 }
 
 const startGame = (players: Player[], board: BoardItem[]) => {
-  activeGame.value = new Game(players, []);
+  const randomIndex = Math.floor(Math.random() * 2);
+  activeGame.value = new Game(players, board, randomIndex);
 }
 
 // const resumeGame = (game: Game) => {
@@ -63,13 +67,25 @@ const saveGameBoard = (board: BoardItem[]) => {
   
 }
 
+const handleGameState = () => {
+
+}
+
 </script>
 
 <template>
 
   <div>
-    <SelectPlayers :players="activePlayers" @add-player="handlePlayersState" v-if="!gameIsActive" />
-    <GameBoard :game-board="gameBoard"></GameBoard>
+    <SelectPlayers 
+      :players="activePlayers" 
+      @add-player="handlePlayersState" 
+      v-if="!gameIsActive" 
+    />
+    <GameBoard 
+      :game-board="gameBoard" 
+      :current-game="activeGame"
+      @gameboard="handleGameState"
+    ></GameBoard>
   </div>
 </template>
 
