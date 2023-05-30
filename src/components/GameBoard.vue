@@ -6,12 +6,9 @@ import PlayerView from './PlayerView.vue';
 import GridItem from './GridItem.vue';
 import { clearGameFromStorage } from '../functions/localStorage';
 
-const GRID_LENGTH: number = 9;
-const gameBoard = ref<BoardItem[] >([]);
 
 interface IGameBoardProps {
-  resumedGame: boolean,
-  initialBoard: BoardItem[] | null
+  gameBoard: BoardItem[]
 }
 
 const emit = defineEmits<{ 
@@ -20,33 +17,17 @@ const emit = defineEmits<{
 
 const props = defineProps<IGameBoardProps>();
 
-onMounted(() => {
-  if (props.resumedGame && props.initialBoard) {
-    gameBoard.value = props.initialBoard;
-  } else {
-    createGameBoard();
-  }
-})
-
-const createGameBoard = () => {
-  for (let i = 0; i < GRID_LENGTH; i++) {
-    gameBoard.value = [
-      ...gameBoard.value,
-      new BoardItem(i, i.toString())
-  ];
-  }
-}
 
 const handlePiecePlacement = (id: string) => {
   console.log(id);
-  gameBoard.value = gameBoard.value.map((item) => {
+   let newGameBoardValue = props.gameBoard.map((item) => {
     if (item.id == id) {
       item.placedPiece = GamePiece.X;
       return item
     }
     return item
   })
-  emit('gameboard', gameBoard.value)
+  emit('gameboard', newGameBoardValue)
 }
 
 const reset = () => {

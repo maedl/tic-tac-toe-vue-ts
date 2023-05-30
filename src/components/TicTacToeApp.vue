@@ -1,45 +1,59 @@
-</script>
-import { onMounted, ref } from 'vue';
-import SelectPlayers from './components/SelectPlayers.vue';
-import GameBoard from './components/GameBoard.vue';
-import { getGameFromStorage, saveGameToStorage } from './functions/localStorage';
-import { Player } from './models/Player';
-import { Game } from './models/Game';
-import { BoardItem } from './models/BoardItem';
+<script setup lang="ts">
+import { ref } from 'vue';
+import SelectPlayers from './SelectPlayers.vue';
+import GameBoard from './GameBoard.vue';
+import { saveGameToStorage } from '../functions/localStorage';
+import { BoardItem } from '../models/BoardItem';
+import { Player } from '../models/Player';
+import { Game } from '../models/Game';
+import { computed } from '@vue/reactivity';
 
-const gameIsActive = ref<boolean>();
+const GRID_LENGTH: number = 9;
+
+const gameIsActive = ref<boolean>(false);
 const activeGame = ref<Game>(new Game([],[]));
+const gameBoard = ref<BoardItem[] >([]);
+const activePlayers = ref<Player[]>([]);
 
-onMounted(() => {
-  checkForActiveGame()
-})
+// onMounted(() => {
+//   checkForActiveGame()
+// })
 
-const checkForActiveGame = () => {
-  console.log('hello')
-  const storageCheck: Game | null = getGameFromStorage();
-
-  if (storageCheck === null) {
-    return gameIsActive.value = false;
+const createGameBoard = () => {
+  for (let i = 0; i < GRID_LENGTH; i++) {
+    gameBoard.value = [
+      ...gameBoard.value,
+      new BoardItem(i, i.toString())
+  ];
   }
-  else {
-    resumeGame(storageCheck)
-  }
+}
+
+// const checkForActiveGame = () => {
+//   console.log('hello')
+//   const storageCheck: Game | null = getGameFromStorage();
+
+//   if (storageCheck === null) {
+//     return gameIsActive.value = false;
+//   }
+//   else {
+//     resumeGame(storageCheck)
+//   }
   
+// }
+
+const handlePlayersState = (newPlayers: Player[]) => {
+  activePlayers.value = newPlayers;
+  console.log(activePlayers.value)
 }
 
-const gameFull = (players: Player[]) => {
-  gameIsActive.value = true;
-  startGame(players);
-}
-
-const startGame = (players: Player[]) => {
+const startGame = (players: Player[], board: BoardItem[]) => {
   activeGame.value = new Game(players, []);
 }
 
-const resumeGame = (game: Game) => {
-  activeGame.value = new Game(game.players, game.board);
-  gameIsActive.value = true;
-}
+// const resumeGame = (game: Game) => {
+//   activeGame.value = new Game(game.players, game.board);
+//   gameIsActive.value = true;
+// }
 
 const saveGameBoard = (board: BoardItem[]) => {
   if (activeGame.value) {
@@ -49,12 +63,14 @@ const saveGameBoard = (board: BoardItem[]) => {
   
 }
 
+</script>
+
 <template>
 
   <div>
-    <SelectPlayers @max-players="gameFull" v-if="!gameIsActive" />
-    <GameBoard :resumedGame="gameIsActive" @gameboard="saveGameBoard" v-else :initialBoard="gameIsActive ? activeGame.board || null : null" />
+    <SelectPlayers :players="activePlayers" @add-player="handlePlayersState" v-if="!gameIsActive" />
+    <GameBoard :game-board="gameBoard"></GameBoard>
   </div>
 </template>
 
-<script setup lang="ts">
+

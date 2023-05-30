@@ -1,9 +1,10 @@
 <script setup lang="ts">
 import { ref, watch } from 'vue';
-import { GamePiece } from '../models/Player';
+import { GamePiece, Player } from '../models/Player';
+import { Game } from '../models/Game';
 
 interface IPlayerInputProps {
-  playerCount: number
+  players: Player[]
 }
 
 const emit = defineEmits<{ 
@@ -16,21 +17,18 @@ const playerInput = ref('');
 const btnText = ref('Spara');
 const playerPiece = ref(GamePiece.X)
 
-watch(() => props.playerCount, (newPlayerCount) => {
-  if(newPlayerCount == 1) {
-    btnText.value = 'Starta spel';
-    playerPiece.value = GamePiece.O;
-  }
-});
+// watch(() => props.playerCount, (newPlayerCount) => {
+//   if(newPlayerCount == 1) {
+//     btnText.value = 'Starta spel';
+//     playerPiece.value = GamePiece.O;
+//   }
+// });
 
 const handleSubmit = () => {
   emit('add-player', playerInput.value);
   playerInput.value = '';
-
-  if(props.playerCount == 1) {
-    btnText.value = 'Starta spel';
-  }
-
+  btnText.value = 'Starta spel';
+  playerPiece.value = GamePiece.O
 }
 
 </script>

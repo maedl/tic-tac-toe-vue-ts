@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import TicTacToeApp from './components/SelectPlayers.vue';
+import TicTacToeApp from './components/TicTacToeApp.vue';
 
 
 </script>
