@@ -6,8 +6,11 @@ export enum GamePiece {
 
 export class Player {
   constructor(
-    public name: String,
+    public name: string,
     public GamePiece: GamePiece,
-    public score: Number = 0
+    public score: number = 0
   ) {}
+  incrementScore() {
+    this.score += 1;
+  }
 }
