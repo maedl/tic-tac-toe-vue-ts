@@ -103,10 +103,7 @@ const handleGameState = (updatedBoard: BoardItem[]) => {
 const gameOver = (endType: gameEndType) => {
   switch (endType) {
     case gameEndType.win:
-      activeGame.value.nextTurn();
-      const winnerIndex = activeGame.value.currentPlayerIndex
-      activeGame.value.players[winnerIndex].incrementScore();
-      console.log(activeGame.value.players);
+      updateWinnerScore();
     break;
     case gameEndType.draw:
       activeGame.value.gameOver = true;
@@ -114,6 +111,13 @@ const gameOver = (endType: gameEndType) => {
     default:
     break;
   }
+}
+
+const updateWinnerScore = () => {
+  activeGame.value.nextTurn();
+  const winnerIndex = activeGame.value.currentPlayerIndex
+  activeGame.value.players[winnerIndex].incrementScore();
+  console.log(activeGame.value.players);
 }
 
 </script>
