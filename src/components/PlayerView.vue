@@ -11,9 +11,10 @@ const props = defineProps<IPlayerViewProps>();
 
 <template>
 
-  <div class="flex justify-around my-2">
+  <div class="grid grid-cols-2 my-2">
+    <h2>name</h2>
     <div>{{ props.player.name }}</div>
-    <div> {{ props.player.GamePiece }}</div>
+    <div class="flex justify-center"> {{ props.player.score }}</div>
   </div>
 
 </template>

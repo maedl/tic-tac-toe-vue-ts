@@ -7,12 +7,14 @@ import { BoardItem } from '../models/BoardItem';
 import { GamePiece, Player } from '../models/Player';
 import { Game, gameEndType } from '../models/Game';
 import { GRID_LENGTH } from "../models/solutions";
-import ResetButton from './ResetButton.vue';
+import ScoreModal from './ScoreModal.vue';
+
 
 const gameIsActive = ref<boolean>(false);
 const activeGame = ref<Game>(new Game([],[], 0, GRID_LENGTH));
 const gameBoard = ref<BoardItem[] >([]);
 const activePlayers = ref<Player[]>([]);
+const modalActive = ref<boolean>(false);
 
 // onMounted(() => {
 //   checkForActiveGame()
@@ -120,6 +122,10 @@ const updateWinnerScore = () => {
   console.log(activeGame.value.players);
 }
 
+const toggleModal = () => {
+  modalActive.value = !modalActive.value;
+}
+
 </script>
 
 <template>
@@ -136,8 +142,14 @@ const updateWinnerScore = () => {
       :current-game="activeGame"
       @gameboard="handleGameState"
       @play-again="playAgain"
+      @show-score="toggleModal"
     />
-
+    
+    <ScoreModal 
+      :current-game="activeGame"
+      :modalActive="modalActive" 
+      @close-modal="toggleModal"
+      ></ScoreModal>
 
   </div>
 

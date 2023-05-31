@@ -7,7 +7,7 @@ const emit = defineEmits<{
 }> ();
 
 const playerInput = ref('');
-const btnText = ref('Spara');
+const btnText = ref('Save');
 const playerPiece = ref(GamePiece.X)
 
 const handleSubmit = () => {
