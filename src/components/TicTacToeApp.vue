@@ -71,13 +71,28 @@ const handleGameState = (updatedBoard: BoardItem[]) => {
   const activeTurnCount = activeGame.value.turnCount
   activeGame.value = new Game(activePlayers.value, updatedBoard, activeIndex, activeTurnCount);
 
+  let isWon = activeGame.value.checkSolution();
+
+  if (isWon) {
+    gameOver('win')
+  }
+
   if (activeGame.value.turnCount == 0) {
-    gameOver()
+    gameOver('draw')
   }
 }
 
-const gameOver = () => {
-  console.log('draw!');
+const gameOver = (endType: string) => {
+  switch (endType) {
+    case 'win':
+      console.log('win')
+    break;
+    case 'draw':
+      console.log('draw')
+    break;
+    default:
+    break;
+  }
 }
 
 </script>

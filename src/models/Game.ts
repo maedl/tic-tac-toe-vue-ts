@@ -1,6 +1,6 @@
 import { BoardItem } from "./BoardItem"
-import { Player } from "./Player"
-import { solutions, GRID_LENGTH } from "./solutions";
+import { GamePiece, Player } from "./Player"
+import { winningCombinations, GRID_LENGTH } from "./solutions";
 
 export class Game {
   constructor(
@@ -15,6 +15,23 @@ export class Game {
     console.log('counter: ' + this.turnCount)
   }
   checkSolution() {
+    for (let i = 0; i < winningCombinations.length; i++) {
 
+      const threeInARow = [GamePiece.EMPTY, GamePiece.EMPTY, GamePiece.EMPTY]
+
+      for (let j = 0; j < 3; j++) {
+        threeInARow[j] = this.board[winningCombinations[i][j]].placedPiece
+        console.log(this.board[winningCombinations[i][j]])
+      }
+      console.log(threeInARow);
+      const firstPiece = threeInARow[0];
+      if (firstPiece !== GamePiece.EMPTY && threeInARow.every(piece => piece === firstPiece)) {
+        return true;
+      }
+      else {
+        return false;
+      }
+    }
   }
 }
+

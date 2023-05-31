@@ -57,7 +57,7 @@ const reset = () => {
       <PlayerView v-for="player in activePlayers" :player="player" :key="player.GamePiece"></PlayerView>
     </div> -->
       <h1
-        class="text-lg mb-4 mx-8 px-6"
+        class="text-xl mb-4 mx-8 px-6"
         >
         {{ 'It is your turn, ' + currentPlayerName + '!' }}
         </h1>
