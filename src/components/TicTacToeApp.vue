@@ -74,12 +74,15 @@ const handleGameState = (updatedBoard: BoardItem[]) => {
 
   activeGame.value.checkSolution();
 
-  if(activeGame.value.gameOver) {
+  if(activeGame.value.isWon) {
     return gameOver(gameEndType.win);
   }
 
   if (activeGame.value.turnCount == 0) {
-    gameOver(gameEndType.draw);
+    // gameOver(gameEndType.draw);
+    activeGame.value.isDraw = true;
+    activeGame.value.gameOver = true;
+    console.log(activeGame.value)
   }
 }
 
@@ -117,9 +120,13 @@ const gameOver = (endType: gameEndType) => {
     />
 
   </div>
-  <div v-else>
 
-    <ResetButton />
+  <div 
+    v-else
+    class="flex justify-center items-center h-screen"
+  >
     
+    <ResetButton />
+
   </div>
 </template>

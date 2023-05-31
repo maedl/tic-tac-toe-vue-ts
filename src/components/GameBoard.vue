@@ -38,13 +38,9 @@ const handlePiecePlacement = (id: string) => {
     return item;
   });
 
-  if (props.currentGame.gameOver == false) {
     props.currentGame.nextTurn();
     emit('gameboard', newGameBoardValue);
-  }
-  else {
-    emit('gameboard', newGameBoardValue);
-  }
+
 }
 
 </script>

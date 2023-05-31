@@ -13,7 +13,9 @@ export class Game {
     public board: BoardItem[],
     public currentPlayerIndex: number,
     public turnCount: number,
-    public gameOver: boolean = false
+    public gameOver: boolean = false,
+    public isWon: boolean = false,
+    public isDraw: boolean = false,
   ) {}
   nextTurn() {
     this.currentPlayerIndex = (this.currentPlayerIndex === 0) ? 1 : 0;
@@ -30,6 +32,7 @@ export class Game {
       }
       const firstPiece = threeInARow[0];
       if (firstPiece !== GamePiece.EMPTY && threeInARow.every(piece => piece === firstPiece)) {
+        this.isWon = true;
         this.gameOver = true;
       }
     }
