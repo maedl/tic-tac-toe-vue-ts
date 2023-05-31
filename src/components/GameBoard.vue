@@ -2,7 +2,7 @@
 import { BoardItem } from '../models/BoardItem';
 import GridItem from './GridItem.vue';
 import { clearGameFromStorage } from '../functions/localStorage';
-import { Game } from '../models/Game';
+import { Game, gameEndType } from '../models/Game';
 import { computed } from 'vue';
 import { GamePiece } from '../models/Player';
 
@@ -37,8 +37,13 @@ const handlePiecePlacement = (id: string) => {
     return item;
   });
 
-  props.currentGame.nextTurn();
-  emit('gameboard', newGameBoardValue);
+  if (!props.currentGame.gameOver) {
+    props.currentGame.nextTurn();
+    emit('gameboard', newGameBoardValue);
+  }
+  else {
+    emit('gameboard', newGameBoardValue);
+  }
 }
 
 

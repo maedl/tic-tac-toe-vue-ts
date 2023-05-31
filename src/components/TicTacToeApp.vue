@@ -5,7 +5,7 @@ import GameBoard from './GameBoard.vue';
 import { saveGameToStorage } from '../functions/localStorage';
 import { BoardItem } from '../models/BoardItem';
 import { Player } from '../models/Player';
-import { Game } from '../models/Game';
+import { Game, gameEndType } from '../models/Game';
 import { GRID_LENGTH } from "../models/solutions";
 
 const gameIsActive = ref<boolean>(false);
@@ -71,23 +71,19 @@ const handleGameState = (updatedBoard: BoardItem[]) => {
   const activeTurnCount = activeGame.value.turnCount
   activeGame.value = new Game(activePlayers.value, updatedBoard, activeIndex, activeTurnCount);
 
-  let isWon = activeGame.value.checkSolution();
+  activeGame.value.checkSolution();
 
-  if (isWon) {
-    gameOver('win')
-  }
-
-  if (activeGame.value.turnCount == 0) {
-    gameOver('draw')
+  if(activeGame.value.gameOver) {
+    console.log('someone won')
   }
 }
 
-const gameOver = (endType: string) => {
+const gameOver = (endType: gameEndType) => {
   switch (endType) {
-    case 'win':
-      console.log('win')
+    case gameEndType.win:
+      console.log(activeGame.value.players[activeGame.value.currentPlayerIndex])
     break;
-    case 'draw':
+    case gameEndType.draw:
       console.log('draw')
     break;
     default:
