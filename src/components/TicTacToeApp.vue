@@ -92,7 +92,6 @@ const gameOver = () => {
     />
     <GameBoard 
       v-else
-      :game-board="gameBoard" 
       :current-game="activeGame"
       @gameboard="handleGameState"
     ></GameBoard>

@@ -4,10 +4,10 @@ import GridItem from './GridItem.vue';
 import { clearGameFromStorage } from '../functions/localStorage';
 import { Game } from '../models/Game';
 import { computed } from 'vue';
+import { GamePiece } from '../models/Player';
 
 interface IGameBoardProps {
   currentGame: Game,
-  gameBoard: BoardItem[]
 }
 
 const emit = defineEmits<{ 
@@ -24,7 +24,12 @@ const currentPlayerName = computed(() => {
 });
 
 const handlePiecePlacement = (id: string) => {
-  let newGameBoardValue = props.gameBoard.map((item) => {
+
+  if (props.currentGame.board[Number(id)].placedPiece != GamePiece.EMPTY) {
+    return;
+  }
+  
+  let newGameBoardValue = props.currentGame.board.map((item) => {
     if (item.id == id) {
       item.placedPiece = props.currentGame.players[props.currentGame.currentPlayerIndex].GamePiece;
       return item;
@@ -57,7 +62,7 @@ const reset = () => {
         {{ 'It is your turn, ' + currentPlayerName + '!' }}
         </h1>
     <div class="grid grid-rows-3 grid-cols-3 w-full max-w-[328px] md:max-w-xl px-4 gap-1 md:gap-2 mb-4">
-      <GridItem @place-piece="handlePiecePlacement" v-for="item in gameBoard" :key="item.id" :board-item="item"></GridItem>
+      <GridItem @place-piece="handlePiecePlacement" v-for="item in currentGame.board" :key="item.id" :board-item="item"></GridItem>
     </div>
 
     <button @click="reset" class="btn mt-2">Reset</button>
