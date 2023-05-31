@@ -13,6 +13,8 @@ interface IGameBoardProps {
 
 const emit = defineEmits<{ 
   (e: 'gameboard', board: BoardItem[]) :void,
+  (e: 'play-again'): void,
+  (e: 'show-score'): void
 }> ();
 
 const props = defineProps<IGameBoardProps>();
@@ -47,21 +49,43 @@ const handlePiecePlacement = (id: string) => {
 
 <template>
   <div 
-    class="h-screen flex flex-col justify-center items-center"
+    class="h-full flex flex-col justify-center items-center"
   >
-
-    <!-- <div  class="grid grid-cols-1 grid-rows-2 w-1/2 min-w-fit absolute top-6 right-0">
-      <PlayerView v-for="player in activePlayers" :player="player" :key="player.GamePiece"></PlayerView>
-    </div> -->
-      <h1
+    <h1
+      v-if="!props.currentGame.gameOver"
+      class="text-xl mb-4 mx-8 px-6"
+    >
+      {{ 'It is your turn, ' + currentPlayerName + '!' }}
+    </h1>
+    <div v-else>
+      <h1 v-if="props.currentGame.isDraw"
         class="text-xl mb-4 mx-8 px-6"
-        >
-        {{ 'It is your turn, ' + currentPlayerName + '!' }}
-        </h1>
-    <div class="grid grid-rows-3 grid-cols-3 w-full max-w-[328px] md:max-w-xl px-4 gap-1 md:gap-2 mb-4">
-      <GridItem @place-piece="handlePiecePlacement" v-for="item in currentGame.board" :key="item.id" :board-item="item"></GridItem>
+      >
+        Draw!
+      </h1>
+      <h1 v-else
+      class="text-xl mb-4 mx-8 px-6"
+      >
+        {{ currentPlayerName + ' wins!' }}
+      </h1>
     </div>
 
-    <ResetButton />
+    <div class="grid grid-rows-3 grid-cols-3 w-full max-w-[328px] md:max-w-xl px-4 gap-1 md:gap-2 mb-4">
+      <GridItem 
+        @place-piece="handlePiecePlacement" 
+        v-for="item in currentGame.board" 
+        :key="item.id" 
+        :board-item="item"
+        :class="{'pointer-events-none': props.currentGame.gameOver}"
+        >
+      </GridItem>
+    </div>
+    
+    <div v-if="props.currentGame.gameOver" class="flex flex-col">
+      <button class="btn mt-2" @click="$emit('show-score')">See current score</button>
+      <button class="btn mt-2" @click="$emit('play-again')">Play again</button>
+      <ResetButton />
+    </div>
+    <ResetButton v-else/>
   </div>
 </template>

@@ -4,7 +4,7 @@ import SelectPlayers from './SelectPlayers.vue';
 import GameBoard from './GameBoard.vue';
 import { saveGameToStorage } from '../functions/localStorage';
 import { BoardItem } from '../models/BoardItem';
-import { Player } from '../models/Player';
+import { GamePiece, Player } from '../models/Player';
 import { Game, gameEndType } from '../models/Game';
 import { GRID_LENGTH } from "../models/solutions";
 import ResetButton from './ResetButton.vue';
@@ -25,6 +25,13 @@ const createGameBoard = () => {
       new BoardItem(i, i.toString())
   ];
   }
+}
+
+const clearGameboard = () => {
+  gameBoard.value = gameBoard.value.map((item: BoardItem): BoardItem => {
+    item.placedPiece = GamePiece.EMPTY
+    return item;
+  })
 }
 
 // const checkForActiveGame = () => {
@@ -54,6 +61,11 @@ const startNewGame = (players: Player[], board: BoardItem[], turnCount:number) =
   activeGame.value = new Game(players, board, randomIndex, turnCount);
 }
 
+const playAgain = () => {
+  clearGameboard();
+  startNewGame(activeGame.value.players, gameBoard.value, GRID_LENGTH);
+}
+
 // const resumeGame = (game: Game) => {
 //   activeGame.value = new Game(game.players, game.board);
 //   gameIsActive.value = true;
@@ -75,14 +87,16 @@ const handleGameState = (updatedBoard: BoardItem[]) => {
   activeGame.value.checkSolution();
 
   if(activeGame.value.isWon) {
+    
     return gameOver(gameEndType.win);
+    console.log(activeGame.value.isWon)
   }
 
   if (activeGame.value.turnCount == 0) {
-    // gameOver(gameEndType.draw);
     activeGame.value.isDraw = true;
     activeGame.value.gameOver = true;
-    console.log(activeGame.value)
+    gameOver(gameEndType.draw);
+    console.log(activeGame.value.isDraw)
   }
 }
 
@@ -106,7 +120,7 @@ const gameOver = (endType: gameEndType) => {
 
 <template>
 
-  <div v-if="!activeGame.gameOver">
+  <div class="h-screen w-screen flex flex-col">
 
     <SelectPlayers 
       :players="activePlayers" 
@@ -117,16 +131,10 @@ const gameOver = (endType: gameEndType) => {
       v-else
       :current-game="activeGame"
       @gameboard="handleGameState"
+      @play-again="playAgain"
     />
 
-  </div>
-
-  <div 
-    v-else
-    class="flex justify-center items-center h-screen"
-  >
-    
-    <ResetButton />
 
   </div>
+
 </template>

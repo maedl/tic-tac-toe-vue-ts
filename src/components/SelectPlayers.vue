@@ -28,7 +28,7 @@ const addPlayer = (playerName: string) => {
 </script>
 
 <template>
-  <div class="h-screen flex justify-center items-center">
+  <div class="h-full flex justify-center items-center">
     <PlayerInput @add-player="addPlayer"></PlayerInput>
   </div>
 </template>
