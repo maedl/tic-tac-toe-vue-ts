@@ -5,6 +5,7 @@ import { clearGameFromStorage } from '../functions/localStorage';
 import { Game, gameEndType } from '../models/Game';
 import { computed } from 'vue';
 import { GamePiece } from '../models/Player';
+import ResetButton from './ResetButton.vue';
 
 interface IGameBoardProps {
   currentGame: Game,
@@ -37,7 +38,7 @@ const handlePiecePlacement = (id: string) => {
     return item;
   });
 
-  if (!props.currentGame.gameOver) {
+  if (props.currentGame.gameOver == false) {
     props.currentGame.nextTurn();
     emit('gameboard', newGameBoardValue);
   }
@@ -46,17 +47,12 @@ const handlePiecePlacement = (id: string) => {
   }
 }
 
-
-
-const reset = () => {
-  //clearGameFromStorage();
-  location.reload();
-}
-
 </script>
 
 <template>
-  <div class="h-screen flex flex-col justify-center items-center">
+  <div 
+    class="h-screen flex flex-col justify-center items-center"
+  >
 
     <!-- <div  class="grid grid-cols-1 grid-rows-2 w-1/2 min-w-fit absolute top-6 right-0">
       <PlayerView v-for="player in activePlayers" :player="player" :key="player.GamePiece"></PlayerView>
@@ -70,6 +66,6 @@ const reset = () => {
       <GridItem @place-piece="handlePiecePlacement" v-for="item in currentGame.board" :key="item.id" :board-item="item"></GridItem>
     </div>
 
-    <button @click="reset" class="btn mt-2">Reset</button>
+    <ResetButton />
   </div>
 </template>

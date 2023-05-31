@@ -7,6 +7,7 @@ import { BoardItem } from '../models/BoardItem';
 import { Player } from '../models/Player';
 import { Game, gameEndType } from '../models/Game';
 import { GRID_LENGTH } from "../models/solutions";
+import ResetButton from './ResetButton.vue';
 
 const gameIsActive = ref<boolean>(false);
 const activeGame = ref<Game>(new Game([],[], 0, GRID_LENGTH));
@@ -74,17 +75,24 @@ const handleGameState = (updatedBoard: BoardItem[]) => {
   activeGame.value.checkSolution();
 
   if(activeGame.value.gameOver) {
-    console.log('someone won')
+    return gameOver(gameEndType.win);
+  }
+
+  if (activeGame.value.turnCount == 0) {
+    gameOver(gameEndType.draw);
   }
 }
 
 const gameOver = (endType: gameEndType) => {
   switch (endType) {
     case gameEndType.win:
-      console.log(activeGame.value.players[activeGame.value.currentPlayerIndex])
+      activeGame.value.nextTurn();
+      const winnerIndex = activeGame.value.currentPlayerIndex
+      activeGame.value.players[winnerIndex].incrementScore();
+      console.log(activeGame.value.players);
     break;
     case gameEndType.draw:
-      console.log('draw')
+      activeGame.value.gameOver = true;
     break;
     default:
     break;
@@ -95,7 +103,8 @@ const gameOver = (endType: gameEndType) => {
 
 <template>
 
-  <div>
+  <div v-if="!activeGame.gameOver">
+
     <SelectPlayers 
       :players="activePlayers" 
       @add-player="handlePlayersState" 
@@ -105,6 +114,12 @@ const gameOver = (endType: gameEndType) => {
       v-else
       :current-game="activeGame"
       @gameboard="handleGameState"
-    ></GameBoard>
+    />
+
+  </div>
+  <div v-else>
+
+    <ResetButton />
+    
   </div>
 </template>
