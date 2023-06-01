@@ -12,12 +12,12 @@ import ScoreModal from './ScoreModal.vue';
 const gameIsActive = ref<boolean>(false);
 const activeGame = ref<Game>(new Game([],[], 0, GRID_LENGTH));
 const gameBoard = ref<BoardItem[] >([]);
-const activePlayers = ref<Player[]>([]);
+// const activePlayers = ref<Player[]>([]);
 const modalActive = ref<boolean>(false);
 
-// onMounted(() => {
-//   checkForActiveGame()
-// })
+onMounted(() => {
+  checkForActiveGame()
+})
 
 const checkForActiveGame = () => {
   console.log('Checking for active game...')
@@ -41,8 +41,8 @@ const saveGameHistory = () => {
 
 const resumeGame = (game: Game) => {
   console.log('Resuming game:', game);
-  activeGame.value = new Game(game.players, game.board, game.currentPlayerIndex, game.turnCount);
   gameIsActive.value = true;
+  activeGame.value = new Game(game.players, game.board, game.currentPlayerIndex, game.turnCount, game.gameOver, game.isWon, game.isDraw);
   console.log('activeGame after creating new Game:', activeGame.value)
 }
 
@@ -56,17 +56,17 @@ const createGameBoard = () => {
 }
 
 const clearGameboard = () => {
-  gameBoard.value = gameBoard.value.map((item: BoardItem): BoardItem => {
+  activeGame.value.board = activeGame.value.board.map((item: BoardItem): BoardItem => {
     item.placedPiece = GamePiece.EMPTY
     return item;
   })
 }
 
 const handlePlayersState = (newPlayers: Player[]) => {
-  activePlayers.value = newPlayers;
-  if (activePlayers.value.length == 2) {
+  activeGame.value.players = newPlayers;
+  if (activeGame.value.players.length == 2) {
     createGameBoard();
-    startNewGame(activePlayers.value, gameBoard.value, GRID_LENGTH);
+    startNewGame(activeGame.value.players, gameBoard.value, GRID_LENGTH);
     gameIsActive.value = true;
   }
 }
@@ -84,10 +84,10 @@ const playAgain = () => {
 const handleGameState = (updatedBoard: BoardItem[]) => {
   const activeIndex = activeGame.value.currentPlayerIndex;
   const activeTurnCount = activeGame.value.turnCount
-  activeGame.value = new Game(activePlayers.value, updatedBoard, activeIndex, activeTurnCount);
+  activeGame.value = new Game(activeGame.value.players, updatedBoard, activeIndex, activeTurnCount);
 
   activeGame.value.checkSolution();
-  saveGameHistory();
+  
 
   if(activeGame.value.isWon) {
     
@@ -107,6 +107,7 @@ const gameOver = (endType: gameEndType) => {
   switch (endType) {
     case gameEndType.win:
       updateWinnerScore();
+      saveGameHistory();
     break;
     case gameEndType.draw:
       activeGame.value.gameOver = true;
@@ -135,7 +136,7 @@ const toggleModal = () => {
   <div class="h-screen w-screen flex flex-col">
 
     <SelectPlayers 
-      :players="activePlayers" 
+      :players="activeGame.players" 
       @add-player="handlePlayersState" 
       v-if="!gameIsActive" 
     />
