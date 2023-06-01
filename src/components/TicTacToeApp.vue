@@ -12,7 +12,6 @@ import ScoreModal from './ScoreModal.vue';
 const gameIsActive = ref<boolean>(false);
 const activeGame = ref<Game>(new Game([],[], 0, GRID_LENGTH));
 const gameBoard = ref<BoardItem[] >([]);
-// const activePlayers = ref<Player[]>([]);
 const modalActive = ref<boolean>(false);
 
 onMounted(() => {
@@ -91,8 +90,6 @@ const handleGameState = (updatedBoard: BoardItem[]) => {
   }
 
   if (activeGame.value.turnCount == 0) {
-    activeGame.value.isDraw = true;
-    activeGame.value.gameOver = true;
     gameOver(gameEndType.draw);
   }
 }
@@ -101,10 +98,10 @@ const gameOver = (endType: gameEndType) => {
   switch (endType) {
     case gameEndType.win:
       updateWinnerScore();
-      saveGameHistory();
     break;
     case gameEndType.draw:
-      activeGame.value.gameOver = true;
+    activeGame.value.isDraw = true;
+    activeGame.value.gameOver = true;
     break;
     default:
     break;

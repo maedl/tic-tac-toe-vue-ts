@@ -9,12 +9,19 @@ const emit = defineEmits<{
 const playerInput = ref('');
 const btnText = ref('Save');
 const playerPiece = ref(GamePiece.X)
+const placeholder = ref('Fill in name...')
 
 const handleSubmit = () => {
-  emit('add-player', playerInput.value);
+  if (playerInput.value.length > 0) {
+    emit('add-player', playerInput.value);
   playerInput.value = '';
+  placeholder.value = 'Player added!'
   btnText.value = 'Start game';
   playerPiece.value = GamePiece.O
+  }
+  else {
+    placeholder.value = 'Please fill in a name';
+  }
 }
 
 </script>
@@ -24,23 +31,27 @@ const handleSubmit = () => {
     @submit.prevent="handleSubmit" 
     class="flex flex-col justify-center items-center w-full"
   >
-    <label 
-    for="player-name" 
-    class="text-lg"
-    >
-      Player
-      <span :playerPiece="playerPiece">
-        {{ ' ' + playerPiece + ':' }}
-      </span>
-    </label>
-    <div class="flex flex-col">
-      <input 
-        type="text" 
-        name="player-name" 
-        v-model="playerInput" 
-        class="text-black rounded-md mx-4 h-10 px-2 my-4"
+    <div>
+      <label
+      for="player-name"
+      class="text-lg font-bold"
       >
-      <button class="btn" :btnText="btnText">{{ btnText }}</button>
+        Player
+        <span :playerPiece="playerPiece">
+          {{ ' ' + playerPiece + ':' }}
+        </span>
+      </label>
+      
+      <input
+        type="text"
+        name="player-name"
+        v-model="playerInput"
+        :placeholder="placeholder"
+        class="text-black rounded-md mx-4 h-10 px-2 my-4 shadow-md shadow-emerald-950"
+      >
     </div>
+      
+    <button class="btn" :btnText="btnText">{{ btnText }}</button>
+    
   </form>
 </template>

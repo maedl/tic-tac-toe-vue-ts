@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import PlayerInput from './PlayerInput.vue';
 import { Player, GamePiece } from '../models/Player';
+import InstructionsBox from './InstructionsBox.vue';
 
 interface ISelectPlayerProps {
   players: Player[]
@@ -28,7 +29,8 @@ const addPlayer = (playerName: string) => {
 </script>
 
 <template>
-  <div class="h-full flex justify-center items-center">
+  <div class="h-full flex flex-col items-center">
+    <InstructionsBox />
     <PlayerInput @add-player="addPlayer"></PlayerInput>
   </div>
 </template>

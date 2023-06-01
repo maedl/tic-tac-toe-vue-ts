@@ -80,14 +80,11 @@ const handlePiecePlacement = (id: string) => {
       </GridItem>
     </div>
     
-    <div v-if="props.currentGame.gameOver" class="flex flex-col">
+    <div class="flex flex-col">
       <button class="btn mt-2" @click="$emit('show-score')">See current score</button>
       <button class="btn mt-2" @click="$emit('play-again')">Play again</button>
       <ResetButton />
     </div>
-    <div v-else class="flex flex-col">
-      <button class="btn mt-2" @click="$emit('show-score')">See current score</button>
-      <ResetButton/>
-    </div>
+
   </div>
 </template>
