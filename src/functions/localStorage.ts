@@ -12,8 +12,6 @@ export const getGameFromStorage = (): Game | null => {
   if (gameJson) {
     const parsedGame: Game = JSON.parse(gameJson);
     
-    console.log('Parsed game from storage:', parsedGame);
-    
     const board = parsedGame.board.map((item: BoardItem) => new BoardItem(item.index, item.id, item.placedPiece));
     const players = parsedGame.players.map((player: Player) => new Player(player.name, player.GamePiece, player.score))
     return new Game(

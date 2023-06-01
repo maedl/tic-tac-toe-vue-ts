@@ -39,7 +39,7 @@ const handleClick = () => {
 
 <style scoped>
 .bounce-enter-active {
-  animation: bounce-in 0.5s;
+  animation: bounce-in 0.6s;
 }
 .bounce-leave-active {
   animation: bounce-in 0.5s reverse;

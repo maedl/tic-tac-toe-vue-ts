@@ -20,7 +20,6 @@ onMounted(() => {
 })
 
 const checkForActiveGame = () => {
-  console.log('Checking for active game...')
   const storageCheck: Game | null = getGameFromStorage();
 
   if (storageCheck === null) {
@@ -36,14 +35,11 @@ const saveGameHistory = () => {
   if (activeGame.value) {
     saveGameToStorage(activeGame.value)
   }
-  
 }
 
 const resumeGame = (game: Game) => {
-  console.log('Resuming game:', game);
   gameIsActive.value = true;
   activeGame.value = new Game(game.players, game.board, game.currentPlayerIndex, game.turnCount, game.gameOver, game.isWon, game.isDraw);
-  console.log('activeGame after creating new Game:', activeGame.value)
 }
 
 const createGameBoard = () => {
@@ -78,7 +74,7 @@ const startNewGame = (players: Player[], board: BoardItem[], turnCount:number) =
 
 const playAgain = () => {
   clearGameboard();
-  startNewGame(activeGame.value.players, gameBoard.value, GRID_LENGTH);
+  startNewGame(activeGame.value.players, activeGame.value.board, GRID_LENGTH);
 }
 
 const handleGameState = (updatedBoard: BoardItem[]) => {
@@ -88,18 +84,16 @@ const handleGameState = (updatedBoard: BoardItem[]) => {
 
   activeGame.value.checkSolution();
   
+  saveGameHistory();
 
-  if(activeGame.value.isWon) {
-    
+  if(activeGame.value.isWon) { 
     return gameOver(gameEndType.win);
-    console.log(activeGame.value.isWon)
   }
 
   if (activeGame.value.turnCount == 0) {
     activeGame.value.isDraw = true;
     activeGame.value.gameOver = true;
     gameOver(gameEndType.draw);
-    console.log(activeGame.value.isDraw)
   }
 }
 
@@ -122,7 +116,6 @@ const updateWinnerScore = () => {
   activeGame.value.nextTurn();
   const winnerIndex = activeGame.value.currentPlayerIndex
   activeGame.value.players[winnerIndex].incrementScore();
-  console.log(activeGame.value.players);
 }
 
 const toggleModal = () => {

@@ -1,8 +1,7 @@
 <script setup lang="ts">
 import { BoardItem } from '../models/BoardItem';
 import GridItem from './GridItem.vue';
-import { clearGameFromStorage } from '../functions/localStorage';
-import { Game, gameEndType } from '../models/Game';
+import { Game } from '../models/Game';
 import { computed } from 'vue';
 import { GamePiece } from '../models/Player';
 import ResetButton from './ResetButton.vue';
@@ -31,8 +30,6 @@ const handlePiecePlacement = (id: string) => {
   if (props.currentGame.board[Number(id)].placedPiece != GamePiece.EMPTY) {
     return;
   }
-
-  console.log(props.currentGame.currentPlayerIndex)
   
   let newGameBoardValue = props.currentGame.board.map((item) => {
     if (item.id == id) {
