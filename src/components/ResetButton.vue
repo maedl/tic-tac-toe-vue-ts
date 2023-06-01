@@ -1,7 +1,9 @@
 <script setup lang="ts">
+import { clearGameFromStorage } from '../functions/localStorage';
+
 
   const reset = () => {
-    //clearGameFromStorage();
+    clearGameFromStorage();
     location.reload();
   }
 

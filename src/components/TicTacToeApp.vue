@@ -1,14 +1,13 @@
 <script setup lang="ts">
-import { ref } from 'vue';
+import { onMounted, ref } from 'vue';
 import SelectPlayers from './SelectPlayers.vue';
 import GameBoard from './GameBoard.vue';
-import { saveGameToStorage } from '../functions/localStorage';
+import { getGameFromStorage, saveGameToStorage } from '../functions/localStorage';
 import { BoardItem } from '../models/BoardItem';
 import { GamePiece, Player } from '../models/Player';
 import { Game, gameEndType } from '../models/Game';
 import { GRID_LENGTH } from "../models/solutions";
 import ScoreModal from './ScoreModal.vue';
-
 
 const gameIsActive = ref<boolean>(false);
 const activeGame = ref<Game>(new Game([],[], 0, GRID_LENGTH));
@@ -19,6 +18,33 @@ const modalActive = ref<boolean>(false);
 // onMounted(() => {
 //   checkForActiveGame()
 // })
+
+const checkForActiveGame = () => {
+  console.log('Checking for active game...')
+  const storageCheck: Game | null = getGameFromStorage();
+
+  if (storageCheck === null) {
+    return gameIsActive.value = false;
+  }
+  else {
+    resumeGame(storageCheck)
+  }
+  
+}
+
+const saveGameHistory = () => {
+  if (activeGame.value) {
+    saveGameToStorage(activeGame.value)
+  }
+  
+}
+
+const resumeGame = (game: Game) => {
+  console.log('Resuming game:', game);
+  activeGame.value = new Game(game.players, game.board, game.currentPlayerIndex, game.turnCount);
+  gameIsActive.value = true;
+  console.log('activeGame after creating new Game:', activeGame.value)
+}
 
 const createGameBoard = () => {
   for (let i = 0; i < GRID_LENGTH; i++) {
@@ -35,19 +61,6 @@ const clearGameboard = () => {
     return item;
   })
 }
-
-// const checkForActiveGame = () => {
-//   console.log('hello')
-//   const storageCheck: Game | null = getGameFromStorage();
-
-//   if (storageCheck === null) {
-//     return gameIsActive.value = false;
-//   }
-//   else {
-//     resumeGame(storageCheck)
-//   }
-  
-// }
 
 const handlePlayersState = (newPlayers: Player[]) => {
   activePlayers.value = newPlayers;
@@ -68,25 +81,13 @@ const playAgain = () => {
   startNewGame(activeGame.value.players, gameBoard.value, GRID_LENGTH);
 }
 
-// const resumeGame = (game: Game) => {
-//   activeGame.value = new Game(game.players, game.board);
-//   gameIsActive.value = true;
-// }
-
-const saveGameBoard = (board: BoardItem[]) => {
-  if (activeGame.value) {
-    activeGame.value.board = board;
-    saveGameToStorage(activeGame.value)
-  }
-  
-}
-
 const handleGameState = (updatedBoard: BoardItem[]) => {
   const activeIndex = activeGame.value.currentPlayerIndex;
   const activeTurnCount = activeGame.value.turnCount
   activeGame.value = new Game(activePlayers.value, updatedBoard, activeIndex, activeTurnCount);
 
   activeGame.value.checkSolution();
+  saveGameHistory();
 
   if(activeGame.value.isWon) {
     
@@ -113,6 +114,7 @@ const gameOver = (endType: gameEndType) => {
     default:
     break;
   }
+  saveGameHistory();
 }
 
 const updateWinnerScore = () => {

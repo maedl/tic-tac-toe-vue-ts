@@ -31,6 +31,8 @@ const handlePiecePlacement = (id: string) => {
   if (props.currentGame.board[Number(id)].placedPiece != GamePiece.EMPTY) {
     return;
   }
+
+  console.log(props.currentGame.currentPlayerIndex)
   
   let newGameBoardValue = props.currentGame.board.map((item) => {
     if (item.id == id) {
