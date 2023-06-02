@@ -25,12 +25,12 @@ const handleClick = () => {
 </script>
 
 <template>
-  <div class="h-24 w-full border-2 bg-white text-black flex justify-center items-center
-  md:h-36 hover:cursor-pointer"
+  <div class="h-24 w-full bg-white text-black flex justify-center items-center
+  md:h-36 hover:cursor-pointer shadow-gray-700 shadow-inner"
   @click="handleClick"
   >
   <Transition name="bounce">
-    <div class="text-6xl md:text-7xl" v-if="placedPiece">
+    <div class="text-6xl md:text-7xl text-gray-700 font-tsukimi font-semibold" v-if="placedPiece">
       {{ placedPiece }}
     </div>
   </Transition>

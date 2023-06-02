@@ -82,7 +82,7 @@ const handlePiecePlacement = (id: string) => {
     
     <div class="flex flex-col">
       <button class="btn mt-2" @click="$emit('show-score')">See current score</button>
-      <button class="btn mt-2" @click="$emit('play-again')">Play again</button>
+      <button class="btn mt-2" @click="$emit('play-again')">Play again with same players</button>
       <ResetButton />
     </div>
 
