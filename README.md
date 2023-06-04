@@ -1,21 +1,31 @@
-[![Review Assignment Due Date](https://classroom.github.com/assets/deadline-readme-button-24ddc0f5d75046c5622901739e7c5dd533143b0c8e959d652212380cedb1ea36.svg)](https://classroom.github.com/a/XOvGiyhD)
-[![Open in Visual Studio Code](https://classroom.github.com/assets/open-in-vscode-718a45dd9cf7e7f842a935f5ebbe5719a5e09af4491e668f4dbf3b35d5cca122.svg)](https://classroom.github.com/online_ide?assignment_repo_id=11234890&assignment_repo_type=AssignmentRepo)
-# Inlämningsuppgift Tre-i-rad
 
-Denna mall innehåller ett tomt vue-projekt baserat på typescript. Er uppgift är att skapa spelet tre-i-rad med hjälp av denna mall. Eftersom ni inte har någonting att utgå ifrån så har ni fria händer att skapa just er unika lösning.
+# Tic Tac Toe Game with Vue.js and TypeScript
 
-## Betyg G
+This repo contains a Vue.js project built with TypeScript for a school assignment in the advanced JavaScript course. The assignment was to create a Tic Tac Toe game where both players use the same browser and take turns. We had one week to finish, and with this being my first full vue project, I had a lot of fun making it. The game is fully responsive and styled using Tailwind CSS. 
 
-- Kunna ange spelarnamn för X respektive O
-- Kunna spela ett spel och få en vinnare/oavgjort
-- Inte kunna göra fler drag efter spelet är slut
-- Kunna starta ett nytt spel
-- Använda minst en komponent
+## Features
 
-## Betyg VG
+The game has the following features:
 
-- Använda minst tre komponenter för er lösning
-- Spara poänghistorik för spelarna
-- Kunna visa poängstatistiken
-- Kunna stänga webbläsaren och komma tillbaka där spelet avbröts
-- Kunna nollställa statistik och börja om med nya spelare
+### Basic Features (Grade G)
+
+- Ability to input player names for X and O
+- Ability to play a game until a winner is determined or a draw is declared
+- Game prohibits further moves once a game is concluded
+- Ability to start a new game
+- Use of at least one Vue component
+
+### Advanced Features (Grade VG)
+
+- Use of at least three Vue components
+- Ability to save score history for players
+- Display of score statistics
+- Ability to resume game even after closing the browser
+- Ability to reset statistics and start over with new players
+
+## Tech Stack
+
+- Vue.js
+- TypeScript
+- Tailwind CSS
+- Vite
